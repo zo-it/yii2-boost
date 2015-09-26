@@ -1,0 +1,21 @@
+{
+  "name": "ivan-chkv/yii2-boost",
+  "description": "Yii 2 Boost Extension",
+  "keywords": ["yii2", "boost"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ivan Chistyakov",
+      "email": "ivan.chkv@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": ">=2.0.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "yii\\boost\\": ""
+    }
+  }
+}
