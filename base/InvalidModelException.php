@@ -1,10 +1,11 @@
 <?php
 
-namespace yii\boost\db;
+namespace yii\boost\base;
 
 use Exception,
     yii\base\Model,
-    UnexpectedValueException;
+    UnexpectedValueException,
+    yii\helpers\VarDumper;
 
 
 class InvalidModelException extends UnexpectedValueException
@@ -32,5 +33,23 @@ class InvalidModelException extends UnexpectedValueException
     public function getModel()
     {
         return $this->_model;
+    }
+
+    public function __toString()
+    {
+        $model = $this->getModel();
+        if ($model->hasErrors()) {
+            $info = [
+                'class' => get_class($model),
+                'attributes' => $model->getAttributes(),
+                'errors' => $model->getErrors()
+            ];
+        } else {
+            $info = [
+                'class' => get_class($model),
+                'attributes' => $model->getAttributes()
+            ];
+        }
+        return parent::__toString() . PHP_EOL . VarDumper::dumpAsString($info);
     }
 }
