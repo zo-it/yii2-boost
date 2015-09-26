@@ -39,17 +39,17 @@ class InvalidModelException extends UnexpectedValueException
     {
         $model = $this->getModel();
         if ($model->hasErrors()) {
-            $info = [
+            $data = [
                 'class' => get_class($model),
                 'attributes' => $model->getAttributes(),
                 'errors' => $model->getErrors()
             ];
         } else {
-            $info = [
+            $data = [
                 'class' => get_class($model),
                 'attributes' => $model->getAttributes()
             ];
         }
-        return parent::__toString() . PHP_EOL . VarDumper::dumpAsString($info);
+        return parent::__toString() . PHP_EOL . VarDumper::dumpAsString($data);
     }
 }
