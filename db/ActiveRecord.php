@@ -72,8 +72,11 @@ class ActiveRecord extends YiiActiveRecord
         }
     }
 
-    public function throwException($message = null, $code = 0, Exception $previous = null)
+    /**
+     * @return InvalidModelException
+     */
+    public function exception($message = null, $code = 0, Exception $previous = null)
     {
-        throw new InvalidModelException($this, $message, $code, $previous);
+        return new InvalidModelException($this, $message, $code, $previous);
     }
 }
