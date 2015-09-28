@@ -21,7 +21,7 @@ class ActiveRecord extends YiiActiveRecord
         return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
     }
 
-    public function dumpData()
+    public function debugData()
     {
         if ($this->hasErrors()) {
             return [
@@ -40,29 +40,29 @@ class ActiveRecord extends YiiActiveRecord
     public function log($message = 'dump', $category = 'application')
     {
         if ($this->hasErrors()) {
-            Yii::error($message . PHP_EOL . VarDumper::dumpAsString($this->dumpData()), $category);
+            Yii::error($message . PHP_EOL . VarDumper::dumpAsString($this->debugData()), $category);
         } else {
-            Yii::info($message . PHP_EOL . VarDumper::dumpAsString($this->dumpData()), $category);
+            Yii::info($message . PHP_EOL . VarDumper::dumpAsString($this->debugData()), $category);
         }
     }
 
     public function fb($label = null)
     {
         if ($this->hasErrors()) {
-            FB::error($this->dumpData(), $label);
+            FB::error($this->debugData(), $label);
         } else {
-            FB::info($this->dumpData(), $label);
+            FB::info($this->debugData(), $label);
         }
     }
 
     public function dump()
     {
-        VarDumper::dump($this->dumpData());
+        VarDumper::dump($this->debugData());
     }
 
     public function dumpAsString()
     {
-        return VarDumper::dumpAsString($this->dumpData());
+        return VarDumper::dumpAsString($this->debugData());
     }
 
     /**
