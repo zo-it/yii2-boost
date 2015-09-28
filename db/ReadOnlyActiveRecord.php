@@ -83,6 +83,13 @@ class ReadOnlyActiveRecord extends ActiveRecord
     /**
      * @inheritdoc
      */
+    public function afterSave($insert, $changedAttributes)
+    {
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function delete()
     {
         throw new NotSupportedException(__METHOD__ . ' is not supported.');
@@ -102,5 +109,12 @@ class ReadOnlyActiveRecord extends ActiveRecord
     public function beforeDelete()
     {
         return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
     }
 }

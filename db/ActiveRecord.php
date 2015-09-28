@@ -3,6 +3,7 @@
 namespace yii\boost\db;
 
 use Exception,
+    FB,
     yii\boost\base\InvalidModelException,
     yii\helpers\VarDumper,
     Yii,
@@ -20,56 +21,48 @@ class ActiveRecord extends YiiActiveRecord
         return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
     }
 
-    public function dump()
+    public function debugData()
     {
         if ($this->hasErrors()) {
-            $data = [
+            return [
                 'class' => get_class($this),
                 'attributes' => $this->getAttributes(),
                 'errors' => $this->getErrors()
             ];
         } else {
-            $data = [
+            return [
                 'class' => get_class($this),
                 'attributes' => $this->getAttributes()
             ];
         }
-        VarDumper::dump($data);
+    }
+
+    public function log($message = 'Dump:', $category = 'application')
+    {
+        if ($this->hasErrors()) {
+            Yii::error($message . PHP_EOL . VarDumper::dumpAsString($this->debugData()), $category);
+        } else {
+            Yii::info($message . PHP_EOL . VarDumper::dumpAsString($this->debugData()), $category);
+        }
+    }
+
+    public function fb($label = null)
+    {
+        if ($this->hasErrors()) {
+            FB::error($this->debugData(), $label);
+        } else {
+            FB::info($this->debugData(), $label);
+        }
+    }
+
+    public function dump()
+    {
+        VarDumper::dump($this->debugData());
     }
 
     public function dumpAsString()
     {
-        if ($this->hasErrors()) {
-            $data = [
-                'class' => get_class($this),
-                'attributes' => $this->getAttributes(),
-                'errors' => $this->getErrors()
-            ];
-        } else {
-            $data = [
-                'class' => get_class($this),
-                'attributes' => $this->getAttributes()
-            ];
-        }
-        return VarDumper::dumpAsString($data);
-    }
-
-    public function log($message = 'dump', $category = 'application')
-    {
-        if ($this->hasErrors()) {
-            $data = [
-                'class' => get_class($this),
-                'attributes' => $this->getAttributes(),
-                'errors' => $this->getErrors()
-            ];
-            Yii::error($message . PHP_EOL . VarDumper::dumpAsString($data), $category);
-        } else {
-            $data = [
-                'class' => get_class($this),
-                'attributes' => $this->getAttributes()
-            ];
-            Yii::info($message . PHP_EOL . VarDumper::dumpAsString($data), $category);
-        }
+        return VarDumper::dumpAsString($this->debugData());
     }
 
     /**
