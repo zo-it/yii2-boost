@@ -48,7 +48,11 @@ class ActiveRecord extends YiiActiveRecord
 
     public function fb($label = null)
     {
-        FB::log($this->dumpData(), $label);
+        if ($this->hasErrors()) {
+            FB::error($this->dumpData(), $label);
+        } else {
+            FB::info($this->dumpData(), $label);
+        }
     }
 
     public function dump()
