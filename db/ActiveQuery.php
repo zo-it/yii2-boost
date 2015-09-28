@@ -19,6 +19,16 @@ class ActiveQuery extends YiiActiveQuery
         return parent::from($tables);
     }
 
+    /**
+     * @return self
+     */
+    public function setAlias($alias)
+    {
+        /* @var $modelClass ActiveRecord */
+        $modelClass = $this->modelClass;
+        return $this->from([$alias => $modelClass::tableName()]);
+    }
+
     public function getAlias()
     {
         if (!is_null($this->_alias)) {
