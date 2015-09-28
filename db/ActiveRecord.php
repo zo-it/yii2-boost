@@ -21,6 +21,24 @@ class ActiveRecord extends YiiActiveRecord
         return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
     }
 
+    public function log($message = 'dump', $category = 'application')
+    {
+        if ($this->hasErrors()) {
+            $data = [
+                'class' => get_class($this),
+                'attributes' => $this->getAttributes(),
+                'errors' => $this->getErrors()
+            ];
+            Yii::error($message . PHP_EOL . VarDumper::dumpAsString($data), $category);
+        } else {
+            $data = [
+                'class' => get_class($this),
+                'attributes' => $this->getAttributes()
+            ];
+            Yii::info($message . PHP_EOL . VarDumper::dumpAsString($data), $category);
+        }
+    }
+
     public function fb($label = null)
     {
         if ($this->hasErrors()) {
@@ -70,24 +88,6 @@ class ActiveRecord extends YiiActiveRecord
             ];
         }
         return VarDumper::dumpAsString($data);
-    }
-
-    public function log($message = 'dump', $category = 'application')
-    {
-        if ($this->hasErrors()) {
-            $data = [
-                'class' => get_class($this),
-                'attributes' => $this->getAttributes(),
-                'errors' => $this->getErrors()
-            ];
-            Yii::error($message . PHP_EOL . VarDumper::dumpAsString($data), $category);
-        } else {
-            $data = [
-                'class' => get_class($this),
-                'attributes' => $this->getAttributes()
-            ];
-            Yii::info($message . PHP_EOL . VarDumper::dumpAsString($data), $category);
-        }
     }
 
     /**
