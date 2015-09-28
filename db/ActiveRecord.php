@@ -3,6 +3,7 @@
 namespace yii\boost\db;
 
 use Exception,
+    FB,
     yii\boost\base\InvalidModelException,
     yii\helpers\VarDumper,
     Yii,
@@ -18,6 +19,23 @@ class ActiveRecord extends YiiActiveRecord
     public static function find()
     {
         return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
+    }
+
+    public function fb($label = null)
+    {
+        if ($this->hasErrors()) {
+            $data = [
+                'class' => get_class($this),
+                'attributes' => $this->getAttributes(),
+                'errors' => $this->getErrors()
+            ];
+        } else {
+            $data = [
+                'class' => get_class($this),
+                'attributes' => $this->getAttributes()
+            ];
+        }
+        FB::log($data, $label);
     }
 
     public function dump()
