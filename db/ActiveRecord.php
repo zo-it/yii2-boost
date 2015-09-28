@@ -37,7 +37,7 @@ class ActiveRecord extends YiiActiveRecord
         }
     }
 
-    public function log($message = 'dump', $category = 'application')
+    public function log($message = 'Dump:', $category = 'application')
     {
         if ($this->hasErrors()) {
             Yii::error($message . PHP_EOL . VarDumper::dumpAsString($this->debugData()), $category);
